@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playwrite+NZ:wght@100..400&display=swap"
+      rel="stylesheet"
+    />
+    <title>Jokes</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+        /* border: 2px solid red; */
+      }
+      body {
+        height: 100vh;
+        width: 100vw;
+        background-color: black;
+        display: grid;
+        place-items: center;
+        padding: 20px;
+
+        & #joke-body {
+          background-color: white;
+          width: 400px;
+          /* max-width: 500px; */
+          height: max-content;
+          padding: 10px;
+          /* padding-top: 10px; */
+          border-radius: 5px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 15px;
+          text-align: center;
+
+          & h1 {
+            font-weight: 500;
+            font-size: 30px;
+            margin-bottom: 12px;
+          }
+          & p {
+            padding: 10px 20px;
+            font-size: 15px;
+            font-family: "Playwrite NZ", cursive;
+            position: relative;
+
+            &::before {
+              content: attr(data-before);;
+              font-family: "Poppins", sans-serif;
+              position: absolute;
+              top: -25px;
+              left: 17px;
+              font-size: 10px;
+              margin: 10px 0;
+              padding: 3px 12px;
+              background-color: rgb(5, 80, 142);
+              color: white;
+              border-radius: 15px;
+            }
+          }
+          & button {
+            padding: 4px 18px;
+            border-radius: 17px;
+            font-size: 14px;
+            cursor: pointer;
+            letter-spacing: 0.9px;
+            border: 1.6px solid black;
+            background-color: rgb(255, 251, 0);
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section id="joke-body">
+      <h1>Random Jokes</h1>
+
+      <p id="joke">
+        This is a
+        joke
+      </p>
+      <button id="btn">Get Joke</button>
+    </section>
+
+    <script>
+          const jokePara = document.getElementById("joke");
+          const jokeBtn = document.getElementById("btn");
+      const apiUrl = "https://v2.jokeapi.dev/joke/Miscellaneous,Pun,Spooky,Christmas?blacklistFlags=sexist,explicit&type=single";
+        
+
+      const GetJoke =()=>{
+          fetch(apiUrl,{
+              headers:{
+                  Accept:"application/json",
+              }
+          }).then((res)=>{
+              return res.json();
+          })
+          .then((data)=>{
+            jokePara.innerHTML=data.joke;
+            jokePara.setAttribute('data-before', data.category);
+          })
+          .catch((err)=>{
+            alert(err);
+          })
+      }
+      GetJoke();
+      jokeBtn.addEventListener('click',GetJoke);
+    </script>
+  </body>
+</html>
